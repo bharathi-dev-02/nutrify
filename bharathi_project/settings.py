@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shop',
     'analysis',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -137,6 +139,16 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # ✅ Ensure Unique File Paths
 FILE_UPLOAD_PERMISSIONS = 0o644
 WHITENOISE_KEEP_ONLY_HASHED_FILES = True
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('dozq91mif'),
+    'API_KEY': os.getenv('525988449794638'),
+    'API_SECRET': os.getenv('PRhFPBUBA-pzvqqZrYLB73gFF54'),
+}
+
+MEDIA_URL = f"https://res.cloudinary.com/{os.getenv('dozq91mif')}/"
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
