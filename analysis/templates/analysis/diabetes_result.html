@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Risk Result</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            transition: background 1s ease-in-out;
+        }
+
+        body.default {
+            background: url("{% static 'uploads/images/background_image_2.png' %}") no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        body.high-severe-risk {
+            background: url("{% static 'uploads/images/doctor_warning.png' %}") no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        .container {
+            margin-top: 50px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .chart-container {
+            width: 80%;
+            margin: auto;
+        }
+
+        .shop-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        .shop-link:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body class="default {% if risk_level == 'High Risk' or risk_level == 'Severe Risk - Consult a Doctor Immediately!' %}high-severe-risk{% endif %}" id="dynamic-body">
+    <div class="container">
+        <h1 style="color:black;">Your Diabetes Risk Level: {{ risk_level }}</h1>
+
+        {% if risk_level == "Low Risk" or risk_level == "Medium Risk" %}
+            <h2 style="color:green;">🍎 Healthy Eating Recommendations 🍎</h2>
+            <p style="color:green;"">Incorporate these healthy foods into your diet for better health.</p>
+
+            <div class="food-images-container">
+                {% for image in food_images %}
+                    <img src="{{ image }}" alt="Healthy Food" style="width: 150px; margin: 10px; border-radius: 10px; box-shadow: 2px 2px 10px rgba(0,0,0,0.2);">
+                {% endfor %}
+            </div>
+
+            <a href="{% url 'collections' %}" class="shop-link">🛒 Visit Our Shop & Order Now</a>
+
+        {% elif risk_level == "High Risk" or risk_level == "Severe Risk - Consult a Doctor Immediately!" %}
+            <h2 style="color:red;">⚠️ Please Consult a Doctor Immediately! ⚠️</h2>
+        {% endif %}
+
+        <br>
+        <a href="{% url 'home' %}">🔙 Back to Home</a>
+        <a href="{% url 'download_report' %}" class="shop-link">📄 Download Report (PDF)</a>
+        <!-- Charts Section -->
+        <div class="chart-container mt-4">
+            <canvas id="pieChart"></canvas>
+        </div>
+        <div class="chart-container mt-4">
+            <canvas id="barChart"></canvas>
+        </div>        
+    </div>
+
+    <script>
+        // Safely pass Django context variables to JavaScript
+        const lowRisk = "{{ low_risk|default:0 }}";
+        const mediumRisk = "{{ medium_risk|default:0 }}";
+        const highRisk = "{{ high_risk|default:0 }}";
+        const severeRisk = "{{ severe_risk|default:0 }}";
+    
+        // Pie Chart
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: ['Low Risk', 'Medium Risk', 'High Risk', 'Severe Risk'],
+                datasets: [{
+                    data: [lowRisk, mediumRisk, highRisk, severeRisk],
+                    backgroundColor: ['#28a745', '#ffc107', '#fd7e14', '#dc3545']
+                }]
+            }
+        });
+    
+        // Bar Chart
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['Low Risk', 'Medium Risk', 'High Risk', 'Severe Risk'],
+                datasets: [{
+                    label: 'Number of Users',
+                    data: [lowRisk, mediumRisk, highRisk, severeRisk],
+                    backgroundColor: ['#28a745', '#ffc107', '#fd7e14', '#dc3545']
+                }]
+            }
+        });
+    </script>
+    
+</body>
+</html>

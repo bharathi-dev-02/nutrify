@@ -1,0 +1,58 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}
+    Registration | Nutrify
+{% endblock title %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 85vh;">
+    <div class="col-md-6 col-lg-5 col-sm-8 col-12 shadow-lg p-4 rounded bg-white">
+        <h4 class="mb-3 text-center">Register</h4>
+        <hr style="border-color: #b8bfc2;">
+        {% include 'shop/inc/message.html' %}
+        
+        <form method="post" action="">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="username" class="form-label fw-semibold">User Name</label>
+                {{ form.username }}
+                {% if form.errors.username %}
+                <label class="text-danger d-block small">{{ form.errors.username }}</label>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label fw-semibold">Email</label>
+                {{ form.email }}
+                {% if form.errors.email %}
+                <label class="text-danger d-block small">{{ form.errors.email }}</label>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="password1" class="form-label fw-semibold">Password</label>
+                {{ form.password1 }}
+                {% if form.errors.password1 %}
+                <label class="text-danger d-block small">{{ form.errors.password1 }}</label>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="password2" class="form-label fw-semibold">Confirm Password</label>
+                {{ form.password2 }}
+                {% if form.errors.password2 %}
+                <label class="text-danger d-block small">{{ form.errors.password2 }}</label>
+                {% endif %}
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+
+            <div class="text-center mt-3">
+                <p class="mb-0">Already a user? <a href="{% url 'login' %}" class="text-decoration-none">Login here</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
