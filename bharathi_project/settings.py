@@ -4,18 +4,20 @@ Django settings for bharathi_project project.
 
 from pathlib import Path
 import os
-import dj_database_url # type: ignore
+import dj_database_url  # type: ignore
+import pymysql
+pymysql.install_as_MySQLdb()
 
 # Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-m5+mx=vsk4)44#=wzb8ht1ev9rdms6a8s7h09z*h$j+p29!hhv'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-m5+mx=vsk4)44#=wzb8ht1ev9rdms6a8s7h09z*h$j+p29!hhv')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 
 # Application definition
 INSTALLED_APPS = [
@@ -49,7 +51,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'shop', 'templates'),
             os.path.join(BASE_DIR, 'analysis', 'templates'),
-        ],  # ✅ Merged Both Template Paths
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -64,35 +66,39 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bharathi_project.wsgi.application'
 
-# ✅ Database Configuration for Multiple Databases
+# ✅ FIXED: MySQL Database Configuration
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL')),
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('MYSQL_DATABASE', 'railway'),  # ✅ Default to 'railway'
+        'USER': os.getenv('MYSQLUSER', 'root'),  # ✅ Default to 'root'
+        'PASSWORD': os.getenv('MYSQLPASSWORD', 'cadnJAeyWhsEcQywFEVPdxyIWHcgcAaO'),  # ✅ Actual password
+        'HOST': os.getenv('MYSQLHOST', 'shuttle.proxy.rlwy.net'),  # ✅ Actual host
+        'PORT': os.getenv('MYSQLPORT', '19758'),  # ✅ MySQL default port
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
+    }
 }
 
-# ✅ Database Router to handle multiple databases
-DATABASE_ROUTERS = ['bharathi_project.database_router.DatabaseRouter']
+
+# ✅ REMOVE if you don’t have database_router.py
+# DATABASE_ROUTERS = ['bharathi_project.database_router.DatabaseRouter']
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Store in DB
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_AGE = 86400  # 1 day session expiration
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
@@ -103,30 +109,26 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# ✅ Static & Media Files Configuration (Fixed)
+# ✅ Static & Media Files Configuration
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     os.path.join(BASE_DIR, "analysis", "static"),
 ]
-
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # Collects static files for production
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")  # Stores uploaded 
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# ✅ Ensure Unique File Paths to Prevent Collectstatic Errors
-FILE_UPLOAD_PERMISSIONS = 0o644  # Ensures proper file read/write permissions
-
-# ✅ Prevent duplicate static file names overriding each other
-WHITENOISE_KEEP_ONLY_HASHED_FILES = True  # Only keep versioned static files
+# ✅ Ensure Unique File Paths
+FILE_UPLOAD_PERMISSIONS = 0o644
+WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# ✅ Razorpay API Keys
-RAZORPAY_KEY_ID = "rzp_test_AciNtl2tzsXSNM"
-RAZORPAY_KEY_SECRET = "PhVmK1Q5aOW54imScMYvwB1T"
-
+# ✅ Razorpay API Keys from Environment Variables
+RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
+RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
