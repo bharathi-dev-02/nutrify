@@ -17,15 +17,19 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-m5+mx=vsk4)44#=wzb8ht1ev9r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = ["nutrify.up.railway.app", "127.0.0.1", "localhost"]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://nutrify-production.up.railway.app"
+    "https://nutrify.up.railway.app"
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://nutrify-production.up.railway.app"
+    "https://nutrify.up.railway.app"
 ]
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
 
 # Application definition
 INSTALLED_APPS = [
