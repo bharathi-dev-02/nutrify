@@ -142,6 +142,6 @@ WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ✅ Razorpay API Keys from Environment Variables
-RAZORPAY_KEY_ID = os.getenv("rzp_test_AciNtl2tzsXSNM")
-RAZORPAY_KEY_SECRET = os.getenv("PhVmk1Q5aOW54imScMYvwB1T")
+RAZORPAY_KEY_ID = "rzp_test_AciNtl2tzsXSNM"
+RAZORPAY_KEY_SECRET = "PhVmK1Q5aOW54imScMYvwB1T"
 
