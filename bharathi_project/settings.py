@@ -132,3 +132,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ✅ Razorpay API Keys from Environment Variables
 RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
 RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://nutrify-production.up.railway.app"
+]
