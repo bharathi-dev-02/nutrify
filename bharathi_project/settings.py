@@ -4,6 +4,7 @@ Django settings for bharathi_project project.
 
 from pathlib import Path
 import os
+import dj_database_url # type: ignore
 
 # Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -14,7 +15,7 @@ SECRET_KEY = 'django-insecure-m5+mx=vsk4)44#=wzb8ht1ev9rdms6a8s7h09z*h$j+p29!hhv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 INSTALLED_APPS = [
@@ -31,6 +32,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -64,22 +66,7 @@ WSGI_APPLICATION = 'bharathi_project.wsgi.application'
 
 # ✅ Database Configuration for Multiple Databases
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_bharathi',
-        'HOST': '127.0.0.1',
-        'USER': 'root',
-        'PASSWORD': 'system',
-        'PORT': '3306'
-    },
-    'da_db': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'da_db',
-        'USER': 'root',
-        'PASSWORD': 'system',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL')),
 }
 
 # ✅ Database Router to handle multiple databases
@@ -126,7 +113,9 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # Collects static files for production
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")  # Stores uploaded files
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")  # Stores uploaded 
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # ✅ Ensure Unique File Paths to Prevent Collectstatic Errors
 FILE_UPLOAD_PERMISSIONS = 0o644  # Ensures proper file read/write permissions
