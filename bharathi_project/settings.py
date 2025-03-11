@@ -8,10 +8,10 @@ import dj_database_url  # type: ignore
 import cloudinary
 import cloudinary_storage
 import cloudinary.api
-from dotenv import load_dotenv
-load_dotenv()
 import pymysql
 pymysql.install_as_MySQLdb()
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -148,13 +148,20 @@ WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+cloudinary.config( 
+  cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"), 
+  api_key=os.getenv("CLOUDINARY_API_KEY"), 
+  api_secret=os.getenv("CLOUDINARY_API_SECRET")
+)
+
+
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('dozq91mif'),
-    'API_KEY': os.getenv('525988449794638'),
-    'API_SECRET': os.getenv('PRhFPBUBA-pzvqqZrYLB73gFF54'),
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
 
-MEDIA_URL = f"https://res.cloudinary.com/{os.getenv('dozq91mif')}/"
+MEDIA_URL = f"https://res.cloudinary.com/{os.getenv('CLOUDINARY_CLOUD_NAME')}/"
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
