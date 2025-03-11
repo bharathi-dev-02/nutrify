@@ -29,8 +29,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://nutrify.up.railway.app",
-     "https://res.cloudinary.com"
+    "https://nutrify.up.railway.app"
 ]
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = True
@@ -137,7 +136,7 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-MEDIA_URL = "/media/"
+MEDIA_URL = f"https://res.cloudinary.com/{os.getenv('CLOUDINARY_CLOUD_NAME')}/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -148,25 +147,22 @@ WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-cloudinary.config( 
-  cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"), 
-  api_key=os.getenv("CLOUDINARY_API_KEY"), 
-  api_secret=os.getenv("CLOUDINARY_API_SECRET")
-)
-
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
-
-MEDIA_URL = f"https://res.cloudinary.com/{os.getenv('CLOUDINARY_CLOUD_NAME')}/"
+cloudinary.config( 
+  cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"), 
+  api_key=os.getenv("CLOUDINARY_API_KEY"), 
+  api_secret=os.getenv("CLOUDINARY_API_SECRET")
+)
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ✅ Razorpay API Keys from Environment Variables
-RAZORPAY_KEY_ID = "rzp_test_AciNtl2tzsXSNM"
-RAZORPAY_KEY_SECRET = "PhVmK1Q5aOW54imScMYvwB1T"
+RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
+RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
 
