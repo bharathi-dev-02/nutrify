@@ -145,7 +145,7 @@ def product_details(request, cname, pname):
     if Category.objects.filter(name=cname, status=0).exists():
         if Product.objects.filter(name=pname, status=0).exists():
             product = Product.objects.filter(name=pname, status=0).first()
-            return render(request, "shop/products/product_details.html", {"products": product})
+            return render(request, "shop/products/product_details.html", {"product": product})
     messages.error(request, "No Such Product Found")
     return redirect('collections')
 

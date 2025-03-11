@@ -17,10 +17,10 @@ Nutrify | Online Shopping
         </div>              
     </div>
     <div class="row">  <!-- Ensure all products are inside a single row -->
-        {% for item in products %}
+        {% for item in product %}
         <div class="col-md-6 col-lg-3"> <!-- Ensures proper alignment in a grid -->
             <div class="card my-3">
-                <img src="{{item.image.url}}" class="card-img-top" alt="Categories">
+                <img src="{{item.product_image.url}}" class="card-img-top" alt="Categories">
                 <a href="{% url 'product_details' item.category.name item.name %}">
                 <div class="card-body">
                     <h5 class="card-title text-primary">{{ item.name }}</h5>

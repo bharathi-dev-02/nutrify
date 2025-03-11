@@ -8,13 +8,13 @@ Nutrify | Online Shopping
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <h4 class="mb-3">  {{products}} Details</h4>
+        <h4 class="mb-3">  {{product}} Details</h4>
         <hr style="border-color:#b8bfc2;">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
             <li class="breadcrumb-item"><a href="{% url 'collections' products.category.name  %}">Nature's Basket</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{products}}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{product}}</li>
           </ol>
         </nav>
         {% include 'shop/inc/message.html' %}
@@ -23,17 +23,17 @@ Nutrify | Online Shopping
         {% if products.trending %}
           <div class="hot">Hot</div>
           {% endif %}
-          <img src="{{products.product_image.url}}"  class="card-image-top" alt="{{products}}">
+          <img src="{{ product.product_image.url }}" class="card-image-top" alt="{{ product.name }}">
       </div>
       <div class="col-8 my-3">
           <h5 class="text-success">{{products | upper}}</h5>
-          <p>{{products.vendor}}</p>
-          <p>{{products.description}}</p>
-          <h6 class="my-2 text-danger">Current Price : Rs. <s>{{products.original_price}}</s></h6>
-          <h5 class="my-2 text-primary">Offer Price   : Rs.{{products.selling_price}}</h5>
+          <p>{{product.vendor}}</p>
+          <p>{{product.description}}</p>
+          <h6 class="my-2 text-danger">Current Price : Rs. <s>{{product.original_price}}</s></h6>
+          <h5 class="my-2 text-primary">Offer Price   : Rs.{{product.selling_price}}</h5>
           <div class="my-3">
-            {% if products.quantity > 0 %}
-            <input type="hidden" value="{{products.id}}" id="pid">
+            {% if product.quantity > 0 %}
+            <input type="hidden" value="{{product.id}}" id="pid">
             
               <p>
                 <div class="input-group" style="width:150px">
