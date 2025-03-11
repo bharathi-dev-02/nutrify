@@ -13,20 +13,20 @@ Nutrify | Online Shopping
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'collections' products.category.name  %}">Nature's Basket</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'collections' product.category.name  %}">Nature's Basket</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{product}}</li>
           </ol>
         </nav>
         {% include 'shop/inc/message.html' %}
       </div>
       <div class="col-4 my-3 pic-box">
-        {% if products.trending %}
+        {% if product.trending %}
           <div class="hot">Hot</div>
           {% endif %}
           <img src="{{ product.product_image.url }}" class="card-image-top" alt="{{ product.name }}">
       </div>
       <div class="col-8 my-3">
-          <h5 class="text-success">{{products | upper}}</h5>
+          <h5 class="text-success">{{product | upper}}</h5>
           <p>{{product.vendor}}</p>
           <p>{{product.description}}</p>
           <h6 class="my-2 text-danger">Current Price : Rs. <s>{{product.original_price}}</s></h6>
