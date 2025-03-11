@@ -11,8 +11,8 @@ from .models import *
 
 # ✅ Home Page
 def home(request):
-    products = Product.objects.filter(trending=1)
-    return render(request, "shop/index.html", {"products": products})
+    product = Product.objects.filter(trending=1)
+    return render(request, "shop/index.html", {"product": product})
 
 # ✅ Favourite Page
 def favviewpage(request):
@@ -135,8 +135,8 @@ def collections(request):
 # ✅ View Products in Category
 def collectionsview(request, name):
     if Category.objects.filter(name=name, status=0).exists():
-        products = Product.objects.filter(category__name=name)
-        return render(request, "shop/products/index.html", {"products": products, "category_name": name})
+        product = Product.objects.filter(category__name=name)
+        return render(request, "shop/products/index.html", {"product": product, "category_name": name}) # type: ignore
     messages.error(request, "No Such Category Found")
     return redirect('collections')
 
