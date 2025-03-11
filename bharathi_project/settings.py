@@ -5,6 +5,11 @@ Django settings for bharathi_project project.
 from pathlib import Path
 import os
 import dj_database_url  # type: ignore
+import cloudinary
+import cloudinary_storage
+import cloudinary.api
+from dotenv import load_dotenv
+load_dotenv()
 import pymysql
 pymysql.install_as_MySQLdb()
 
@@ -24,7 +29,8 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://nutrify.up.railway.app"
+    "https://nutrify.up.railway.app",
+     "https://res.cloudinary.com"
 ]
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = True

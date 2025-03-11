@@ -1,5 +1,6 @@
 from django.db import models # type: ignore
 from django.contrib.auth.models import User # type: ignore
+from cloudinary.models import CloudinaryField
 import datetime
 import os
 
@@ -10,7 +11,7 @@ def getFileName(request, filename):
 
 class Category(models.Model):
     name = models.CharField(max_length=150, null=False, blank=False)
-    image = models.ImageField(upload_to=getFileName, null=True, blank=True)
+    image = CloudinaryField('image', null=True, blank=True)
     description = models.TextField(max_length=500, null=False, blank=False)
     status = models.BooleanField(default=False, help_text="0-show, 1-hidden")
     trending = models.BooleanField(default=False, help_text="0-default, 1-trending")
@@ -26,7 +27,7 @@ class Product(models.Model):
     quantity = models.IntegerField(null=False, blank=False)
     original_price = models.FloatField(null=False, blank=False)
     selling_price = models.FloatField(null=False, blank=False)
-    product_image = models.ImageField(upload_to=getFileName, null=True, blank=True)
+    product_image = CloudinaryField('image', null=True, blank=True)
     description = models.TextField(max_length=500, null=False, blank=False)
     status = models.BooleanField(default=False, help_text="0-show, 1-hidden")
     trending = models.BooleanField(default=False, help_text="0-default, 1-trending")
