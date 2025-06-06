@@ -18,7 +18,6 @@ class DiabetesSurvey(models.Model):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True) 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)  
     name = models.CharField(max_length=100)
     age = models.PositiveIntegerField()
     email = models.EmailField()  # Removed unique=True to allow multiple submissions
