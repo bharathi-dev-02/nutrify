@@ -6,7 +6,7 @@ WORKDIR /app
 
 # STEP 3: Install system dependencies needed for MySQL client and building
 RUN apt-get update && apt-get install -y \
-    libmariadb-dev gcc \
+    libmariadb-dev gcc pkg-config build-essential \
     && rm -rf /var/lib/apt/lists/*
 
 # STEP 4: Copy requirements first for better caching

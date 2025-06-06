@@ -14,7 +14,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'unsafe-default-key')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+ALLOWED_HOSTS = ['*']  # For now, allow all
+
 
 # ✅ Fix CSRF Error: Ensure schema is present (http/https)
 CSRF_TRUSTED_ORIGINS = [
@@ -87,20 +88,10 @@ WSGI_APPLICATION = 'bharathi_project.wsgi.application'
 import os
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('MYSQL_DATABASE', 'railway'),  # ✅ Default to 'railway'
-        'USER': os.getenv('MYSQLUSER', 'root'),  # ✅ Default to 'root'
-        'PASSWORD': os.getenv('MYSQLPASSWORD', 'CIDnUfhvXPaDAmXRlYVgPHLpgsHRSEpc'),  # ✅ Actual password
-        'HOST': os.getenv('MYSQLHOST', 'yamabiko.proxy.rlwy.net'),  # ✅ Actual host
-        'PORT': os.getenv('MYSQLPORT', '34361'),  # ✅ MySQL default port
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
-    }
+    'default': dj_database_url.config(
+        default='postgresql://bharathi:va4D3soijcC6qzYdGrybEoVmtnhyX1Dy@dpg-d11f5uvdiees73faaj0g-a.oregon-postgres.render.com/nutrify_db_dlel'
+    )
 }
-
 
 
 
