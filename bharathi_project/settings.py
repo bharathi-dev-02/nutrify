@@ -14,23 +14,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'unsafe-default-key')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['*']  # For now, allow all
+ALLOWED_HOSTS = ['nutrify-02.onrender.com']  # For now, allow all
 
 
 # ✅ Fix CSRF Error: Ensure schema is present (http/https)
 CSRF_TRUSTED_ORIGINS = [
-    origin for origin in os.getenv('CSRF_TRUSTED_ORIGINS', 'http://127.0.0.1:8000').split(',')
-    if origin.startswith('http://') or origin.startswith('https://')
+    'https://nutrify-02.onrender.com',
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    origin for origin in os.getenv('CORS_ALLOWED_ORIGINS', 'http://127.0.0.1:8000').split(',')
-    if origin.startswith('http://') or origin.startswith('https://')
+    'https://nutrify-02.onrender.com',
 ]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SESSION_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 # --- Apps ---
 INSTALLED_APPS = [
