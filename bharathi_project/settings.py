@@ -84,16 +84,23 @@ TEMPLATES = [
 WSGI_APPLICATION = 'bharathi_project.wsgi.application'
 
 # --- DATABASE CONFIG ---
+import os
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nutrify_db',
-        'USER': 'root',
-        'PASSWORD': 'system',
-        'HOST': 'localhost',  # or cloud DB hostname
-        'PORT': '3306',
+        'NAME': os.getenv('MYSQL_DATABASE', 'railway'),  # ✅ Default to 'railway'
+        'USER': os.getenv('MYSQLUSER', 'root'),  # ✅ Default to 'root'
+        'PASSWORD': os.getenv('MYSQLPASSWORD', 'CIDnUfhvXPaDAmXRlYVgPHLpgsHRSEpc'),  # ✅ Actual password
+        'HOST': os.getenv('MYSQLHOST', 'yamabiko.proxy.rlwy.net'),  # ✅ Actual host
+        'PORT': os.getenv('MYSQLPORT', '34361'),  # ✅ MySQL default port
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
+
 
 
 
