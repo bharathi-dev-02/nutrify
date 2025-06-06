@@ -34,10 +34,15 @@ def cart_page(request):
     if request.user.is_authenticated:
         cart = Cart.objects.filter(user=request.user)
         total_amount = sum(item.total_cost for item in cart)
-        return render(request, "shop/cart.html", {"cart": cart, "total_amount": total_amount})
+        return render(request, "shop/cart.html", {
+            "cart": cart,
+            "total_amount": total_amount,
+            "RAZORPAY_KEY_ID": settings.RAZORPAY_KEY_ID  # 💥 Add this line!
+        })
     else:
         messages.error(request, "You must be logged in to view your cart.")
         return redirect("/login")
+
 
 # ✅ Remove from Cart
 def remove_cart(request, cid):
@@ -205,3 +210,4 @@ def verify_payment(request):
             return JsonResponse({"status": "Payment Failed", "error": str(e)}, status=400)
     
     return JsonResponse({"status": "Invalid request"}, status=400)
+
